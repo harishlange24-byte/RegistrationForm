@@ -1,0 +1,24 @@
+[2m10:22:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/users[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
+[2m10:22:35 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/users[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
+[2m10:22:36 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/users[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
+[2m10:22:37 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/users[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
+[2m10:22:40 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/users[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
+[2m10:23:02 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/admin/create[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1122:18)
+    at afterConnectMultiple (node:net:1689:7)
