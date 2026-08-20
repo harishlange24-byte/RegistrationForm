@@ -1,6 +1,7 @@
 import UserModel from "../models/user.model.js";
-import transporter from "../config/mailer.js";
+import resend from "../config/resend.js";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 async function Registration(req, res) {
@@ -21,20 +22,12 @@ async function Registration(req, res) {
             contact,
             address,
         });
-         console.log("EMAIL USER:", process.env.EMAIL_USER);
-             console.log("EMAIL ADMIN:", process.env.EMAIL_ADMIN);
 
-      
-        return res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            user,
-        });
+        const { data, error } = await resend.emails.send({
+            from: "Garba Registration <onboarding@resend.dev>",
 
-           // 3. Email separately
-        transporter.sendMail({
-            from: process.env.EMAIL_USER,
             to: process.env.EMAIL_ADMIN,
+
             subject: "New Garba Registration",
 
             html: `
@@ -50,16 +43,22 @@ async function Registration(req, res) {
 
                 <p>A new user has registered for the Garba event.</p>
             `,
-        })
-        .then((info) => {
-            console.log("EMAIL SENT:", info.messageId);
-            console.log("ACCEPTED:", info.accepted);
-            console.log("REJECTED:", info.rejected);
-        })
-        .catch((error) => {
-            console.error("EMAIL FAILED:", error);
         });
+
+        if (error) {
+            console.error("RESEND EMAIL ERROR:", error);
+        } else {
+            console.log("EMAIL SENT SUCCESSFULLY:", data);
+        }
+
+        return res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            user,
+        });
+
     } catch (err) {
+
         if (err.name === "ValidationError") {
             return res.status(400).json({
                 success: false,
