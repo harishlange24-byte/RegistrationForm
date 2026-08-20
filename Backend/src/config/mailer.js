@@ -4,19 +4,22 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    service:"gmail",
-    auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS,
+    service: "gmail",
+
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
     },
-})
+});
 
 transporter.verify((error, success) => {
+
     if (error) {
-        console.log("Email configuration error:", error);
+        console.log("EMAIL CONFIGURATION ERROR:", error);
     } else {
-        console.log("Email server is ready");
+        console.log("EMAIL SERVER IS READY");
     }
+
 });
 
 export default transporter;
