@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+
+console.log("EMAIL USER:", process.env.EMAIL_USER);
+console.log("EMAIL PASS EXISTS:", !!process.env.EMAIL_PASS);
+
 const transporter = nodemailer.createTransport({
     service: "gmail",
 
@@ -12,7 +16,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
-
+console.log("🔥 TRANSPORTER CREATED");
 transporter.verify((error, success) => {
 
     if (error) {
