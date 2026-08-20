@@ -29,10 +29,7 @@ async function Registration(req, res) {
             {
              
             from:process.env.EMAIL_USER,
-            to:[
-                "harishlange24@gmail.com",
-                "amandasgupta975@gmail.com"
-            ],
+            to:process.env.EMAIL_ADMIN,
 
             subject : "New Garba Registration",
 
