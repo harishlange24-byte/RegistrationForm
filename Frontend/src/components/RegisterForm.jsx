@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { registerUser } from "../api/client.js";
+import {toast} from "react-toastify";
 
 function RegisterForm() {
 
@@ -28,8 +29,7 @@ function RegisterForm() {
         e.preventDefault();
 
         setLoading(true);
-        setMessage("");
-
+        
         try {
 
             const data = {
@@ -39,7 +39,14 @@ function RegisterForm() {
 
             const response = await registerUser(data);
 
-            setMessage(response.message);
+           toast.success(" 🤗You are registered!🤩  🎉 ",{
+            position:"top-center",
+            autoClose:2500,
+            hideProgressBar:false,
+            closeOnClick:true,
+            pauseOnHover:true,
+            draggable:true,
+           });
 
             setForm({
                 name: "",
@@ -51,7 +58,17 @@ function RegisterForm() {
 
         } catch (error) {
 
-            setMessage(error.message);
+            toast.error(
+                error.message || "Registration failed. Please try again.",
+                {
+                    position: "top-center",
+                    autoClose: 3500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                }
+            );
 
         } finally {
 

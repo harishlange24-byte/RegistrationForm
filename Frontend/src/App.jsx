@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import RegisterForm from "./components/RegisterForm";
 import AdminPanel from "./components/AdminPanel";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     const [page, setPage] = useState("register");
@@ -33,6 +35,15 @@ function App() {
             ) : (
                 <AdminPanel />
             )}
+
+            <ToastContainer 
+            position="top-center"
+            autoClose={2500}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
+            theme="dark"/>
 
         </div>
     );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {toast} from "react-toastify";
 import {
     loginAdmin,
     getRegistrations,
@@ -9,6 +10,7 @@ function AdminPanel() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [deleteUser,setDeleteUser] = useState(null);
 
     const [token, setToken] = useState(
         localStorage.getItem("adminToken")
@@ -16,8 +18,7 @@ function AdminPanel() {
 
     const [registrations, setRegistrations] = useState([]);
 
-    const [message, setMessage] = useState("");
-
+  
     const [loading, setLoading] = useState(false);
 
 
@@ -26,7 +27,7 @@ function AdminPanel() {
         e.preventDefault();
 
         setLoading(true);
-        setMessage("");
+        
 
         try {
 
@@ -45,11 +46,20 @@ function AdminPanel() {
             setEmail("");
             setPassword("");
 
+            toast.success("Login Successful!", {
+                autoClose:2500,
+            });
+
             await loadRegistrations(response.token);
 
         } catch (error) {
 
-            setMessage(error.message);
+           toast.error(
+                error.message || "Login failed. Please try again.",
+                {
+                    autoClose: 2500,
+                }
+            );
 
         } finally {
 
@@ -70,12 +80,51 @@ function AdminPanel() {
 
         } catch (error) {
 
-            setMessage(error.message);
-
+           toast.error(
+            error.message || "Failed to load registrations.",
+            {
+                autoClose:2500,
+            }
+           )
         }
     }
 
+    function handleDelete(user){
+        setDeleteUser(user);
+    }
 
+    async function confirmDelete() {
+        if(!deleteUser){
+            return;
+        }
+        try{
+            setLoading(true);
+            const response = await deleteRegistration(
+                deleteUser._id,
+                token
+            );
+            toast.success(
+                response.message || "Registration delete successfuly.",
+                {
+                    autoClose:2500,
+                }
+
+            );
+            setDeleteUser(null);
+            await loadRegistrations();
+        }catch(error){
+            toast.error(
+                error.message || "Failed to delete registration.",
+                {
+                    autoClose:2500,
+                }
+            );
+        }finally{
+            setLoading(false);
+        }
+    }
+
+/*
     async function handleDelete(id) {
 
         const confirmDelete = window.confirm(
@@ -93,21 +142,30 @@ function AdminPanel() {
             const response =
                 await deleteRegistration(id, token);
 
-            setMessage(response.message);
+            toast.success(
+                response.message || "Registration deleted successfully.",
+                {
+                    autoClose:2500,
+                }
+            )
 
             await loadRegistrations();
 
         } catch (error) {
 
-            setMessage(error.message);
-
+            toast.error(
+                error.message || "Failed to delete registration.",
+                {
+                    autoClose: 3500,
+                }
+            );
         } finally {
 
             setLoading(false);
 
         }
     }
-
+*/
 
     function handleLogout() {
 
@@ -117,7 +175,9 @@ function AdminPanel() {
 
         setRegistrations([]);
 
-        setMessage("");
+     toast.info("You have been logged out.",{
+        autoClose:2500,
+     })
 
     }
 
@@ -175,11 +235,7 @@ function AdminPanel() {
                     </div>
 
 
-                    {message && (
-                        <p className="error-message">
-                            {message}
-                        </p>
-                    )}
+                  
 
 
                     <div className="button-row">
@@ -228,6 +284,7 @@ function AdminPanel() {
 
                     <button
                         onClick={() => loadRegistrations()}
+                        disabled={loading}
                     >
                         Refresh
                     </button>
@@ -244,11 +301,7 @@ function AdminPanel() {
             </div>
 
 
-            {message && (
-                <p className="message admin-message">
-                    {message}
-                </p>
-            )}
+           
 
 
             <div className="table-container">
@@ -323,7 +376,7 @@ function AdminPanel() {
                                             className="delete-btn"
                                             onClick={() =>
                                                 handleDelete(
-                                                    user._id
+                                                    user
                                                 )
                                             }
                                             disabled={loading}
@@ -344,6 +397,35 @@ function AdminPanel() {
                 </table>
 
             </div>
+            {/*Delete Modal */}
+            {deleteUser && (
+                <div className="delete-modal-overlay">
+                    <div className="delete-modal">
+                        <div className="delete-modal-icon">
+                              ⚠
+                        </div>
+                        <h2>Delete Registration?</h2>
+                        <p>Are you sure you want to delete
+                        <strong> {deleteUser.name}</strong>
+                        </p>
+                        <span className="delete-warning">
+                            This action cannot be undone.
+                        </span>
+                        <div className="delete-modal-actions">
+                            <button className="cancel-delete-btn"
+                            onClick={()=>setDeleteUser(null)}
+                            disabled={loading}>
+                                Cancel
+                            </button>
+                            <button className="confirm-delete-btn"
+                            onClick={confirmDelete}
+                            disabled={loading}>
+                                {loading ? "Deleting..." : "Delete"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
 
