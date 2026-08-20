@@ -1,3 +1,4 @@
+console.log("🔥 MAILER.JS LOADED");
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
