@@ -26,7 +26,7 @@ async function Registration(req, res) {
         const { data, error } = await resend.emails.send({
             from: "Garba Registration <onboarding@resend.dev>",
 
-            to: ["harishlange24@gmail.com","amandasgupta975@gmail.com"],
+            to: ["harishlange24@gmail.com"],
 
             subject: "New Garba Registration",
 
