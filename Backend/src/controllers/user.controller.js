@@ -24,7 +24,7 @@ async function Registration(req, res) {
             address,
         });
 
-        const result = await brevo.transactionalEmails.sendTransacEmail({
+ brevo.transactionalEmails.sendTransacEmail({
     sender: {
         name: "Garba Registration",
         email: "harishlange24@gmail.com",
@@ -54,6 +54,12 @@ async function Registration(req, res) {
 
         <p>A new user has registered for the Garba event.</p>
     `,
+})
+.then((result) => {
+    console.log("EMAIL SENT SUCCESSFULLY:", result);
+})
+.catch((error) => {
+    console.error("BREVO EMAIL FAILED:", error);
 });
 
 console.log("EMAIL SENT SUCCESSFULLY:", result);
