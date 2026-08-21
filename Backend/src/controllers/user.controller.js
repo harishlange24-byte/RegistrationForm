@@ -26,7 +26,7 @@ async function Registration(req, res) {
         const { data, error } = await resend.emails.send({
             from: "Garba Registration <onboarding@resend.dev>",
 
-            to: process.env.EMAIL_ADMIN,
+            to: ["harishlange24@gmail.com","amandasgupta975@gmail.com"],
 
             subject: "New Garba Registration",
 
@@ -44,7 +44,7 @@ async function Registration(req, res) {
                 <p>A new user has registered for the Garba event.</p>
             `,
         });
-
+            console.log("🔥 RESEND RESPONSE:", { data, error });
         if (error) {
             console.error("RESEND EMAIL ERROR:", error);
         } else {
